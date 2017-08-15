@@ -1,18 +1,21 @@
+"""
+TODO:
+implement logistic regression for binary classification task
+be prepared to answer each step of logistic regression
 
+"""
 import numpy as np
 import matplotlib.pyplot as plt
 
 def sigmoid(scores):
     """
-
     :param scores: scores = np.dot(features, weights)
     :return:
     """
 
     ##########################################################################
-    # TODO:
+    # TODO
     # hint:
-    #
     ##########################################################################
 
 
@@ -23,15 +26,13 @@ def sigmoid(scores):
 
 def softmax(scores):
     """
-
-    :param scores:
+    :param scores: scores = np.dot(features, weights)
     :return:
     """
     ##########################################################################
     # TODO:
     # hint:
     # np.exp
-    #
     ##########################################################################
 
 
@@ -41,18 +42,16 @@ def softmax(scores):
 
 def cost_function(features, target, weights):
     """
+    calculate cost at each time step, minimize cost in gradient descient
     :param features:
     :param target:
     :param weights:
     :return:
     """
-    scores = np.dot(features, weights)
-
     ##########################################################################
-    # TODO:
+    # TODO
     # hint:
     # np.exp, np.log, np.sum
-    #
     ##########################################################################
 
 
@@ -67,7 +66,7 @@ def gradient_descent(features, output_error_signal):
     :return:
     """
     ##########################################################################
-    # TODO:
+    # TODO
     # hint: partial derivatives of cost function is error * features
     ##########################################################################
 
@@ -78,24 +77,22 @@ def gradient_descent(features, output_error_signal):
 
 
 
-
-def logistic_regression(features, target, num_steps, learning_rate, add_intercept = False):
+def logistic_regression(features, target, num_steps, learning_rate, add_ones = False):
     """
     :param features:
     :param target:
     :param num_steps:
     :param learning_rate:
-    :param add_intercept:
+    :param add_ones:
     :return:
     """
-    if add_intercept:
-        intercept = np.ones((features.shape[0], 1))
-        features = np.hstack((intercept, features))
+    if add_ones: # TODO: WHAT IS add_ones ??
+        one = np.ones((features.shape[0], 1))
+        features = np.hstack((one, features))
 
     weights = np.zeros(features.shape[1])
 
     for step in xrange(num_steps):
-
         scores = np.dot(features, weights)
         predictions = sigmoid(scores)
         output_error_signal = target - predictions
@@ -106,22 +103,22 @@ def logistic_regression(features, target, num_steps, learning_rate, add_intercep
 def create_features():
     """
     draw random samples from gaussian in higher dimensions (if only 1d is called normal, multi-d called multinormal/multivaraite normal)
-    mean, covariance, size
+    mean, covariance matrix, size
     :return:
     """
     np.random.seed(12)
-    num_observations = 10
+    num_observations = 100
 
-    x1 = np.random.multivariate_normal([0, 0], [[1, .75],[.75, 1]], num_observations)
-    x2 = np.random.multivariate_normal([1, 4], [[1, .75],[.75, 1]], num_observations)
+    x1 = np.random.multivariate_normal([0, 0], [[2, 1],[1, 1]], num_observations)
+    x2 = np.random.multivariate_normal([5, 5], [[2, 1],[1, 1]], num_observations)
 
-    simulated_separableish_features = np.vstack((x1, x2)).astype(np.float32)
-    simulated_labels = np.hstack((np.zeros(num_observations),
+    vstack_features = np.vstack((x1, x2)).astype(np.float32)
+    hstack_labels = np.hstack((np.zeros(num_observations),
                                   np.ones(num_observations)))
 
     # print simulated_separableish_features[:, 0]
 
-    return (simulated_separableish_features, simulated_labels)
+    return vstack_features, hstack_labels
 
 
 def matplotlib_print_data(simulated_separableish_features, simulated_labels):
@@ -134,13 +131,11 @@ def matplotlib_print_data(simulated_separableish_features, simulated_labels):
 
 
 def main():
-    (simulated_separableish_features, simulated_labels) = create_features()
+    vstack_features, hstack_labels = create_features()
     # matplotlib_print_data()
 
-    updated_weights = logistic_regression(simulated_separableish_features, simulated_labels,
-                              num_steps = 100, learning_rate = 0.001, add_intercept=True)
-
-
-
+    # TODO: WHAT IS updated weights ??
+    updated_weights = logistic_regression(vstack_features, hstack_labels,
+                              num_steps = 100, learning_rate = 0.001, add_ones=True)
 if __name__ == '__main__':
     main()
